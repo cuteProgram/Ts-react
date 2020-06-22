@@ -1,0 +1,10 @@
+@import './styles/var.scss';
+
+.test-container{
+    color: blue;
+    .test2{
+        color: $red;
+        width: 70px;
+        @include ellipsis
+    }
+}
