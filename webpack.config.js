@@ -1,26 +1,28 @@
 const path = require('path')
-const theme = require('./../theme')
+// const theme = require('./theme')
 const htmlWebpackPlugins = require('html-webpack-plugin')
 const TsconfigPathsPlugins = require('tsconfig-paths-webpack-plugin')
 
 module.exports = {
+    mode: 'development',
     entry: {
-        app: path.join(__dirname, './../', 'src/index.tsx')
+        app: path.resolve(__dirname, 'src/index.tsx')
     },
     output: {
-        path: path.join(__dirname, './../', 'dist'),
+        path: path.resolve(__dirname, 'dist'),
+        chunkFilename: '[name].bundle.js',
         filename: '[name].js'
     },
     resolve: {
         extensions: [ '.ts', '.tsx', '.js', '.jsx'],
         plugins: [
             new TsconfigPathsPlugins({
-                configFile: path.join(__dirname, './../', 'tsconfig.json')
+                configFile: path.resolve(__dirname, 'tsconfig.json')
             })
         ],
         alias: {
             // 设置路径别名
-            '@': path.join(__dirname, './../', 'src')
+            '@': path.resolve(__dirname, '../src')
         }
     },
     devServer: {
