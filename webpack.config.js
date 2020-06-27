@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 // const theme = require('./theme')
 const htmlWebpackPlugins = require('html-webpack-plugin')
 const TsconfigPathsPlugins = require('tsconfig-paths-webpack-plugin')
@@ -84,6 +85,7 @@ module.exports = {
     plugins: [
         new htmlWebpackPlugins({
             template: 'public/index.html'
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ]
 }
