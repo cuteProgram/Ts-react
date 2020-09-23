@@ -31,7 +31,7 @@ export default class App extends React.Component {
                 <Button type='primary' onClick={ this.onShouTest }>
                     show Test
                 </Button>
-                <Button type='primary' onClick={ this.onShowSplit }>
+                <Button type='ghost' onClick={ this.onShowSplit }>
                     show Split
                 </Button>
                 {

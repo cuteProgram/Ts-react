@@ -1,8 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
-// const theme = require('./theme')
+const theme = require('./theme')
 const htmlWebpackPlugins = require('html-webpack-plugin')
 const TsconfigPathsPlugins = require('tsconfig-paths-webpack-plugin')
+const TsImportPlugin = require('ts-import-plugin')
+// console.log("path.resolve(__dirname, './src/styles')", path.resolve(__dirname, './src/styles'))
 
 module.exports = {
     mode: 'development',
@@ -21,10 +23,11 @@ module.exports = {
                 configFile: path.resolve(__dirname, 'tsconfig.json')
             })
         ],
-        alias: {
-            // 设置路径别名
-            '@': path.resolve(__dirname, '../src')
-        }
+        // 作用同上
+        // alias: {
+        //     // 设置路径别名
+        //     '@': path.resolve(__dirname, './src')
+        // }
     },
     devServer: {
         hot: true,
@@ -39,7 +42,16 @@ module.exports = {
                 options: {
                     // 使用缓存
                     useCache: true,
-                    cacheDirectory: path.join(__dirname, './../', '.cache-loader')
+                    cacheDirectory: path.join(__dirname, './../', '.cache-loader'),
+                    getCustomTransformers: () => ({
+                        brfore: [
+                            TsImportPlugin({
+                                libraryName: 'antd',
+                                libraryDirectory: 'lib',
+                                style: true            // 'css' | true ---> 选择less文件 ，否则为css文件
+                            })
+                        ]
+                    })
                 }
             },
             {
@@ -68,7 +80,10 @@ module.exports = {
                         }
                     }, 
                     {
-                        loader: 'sass-loader'
+                        loader: 'sass-loader',
+                        options: {
+                            includePaths: [path.resolve(__dirname, './src/styles')]
+                        }
                     }
                 ]
             },
@@ -77,7 +92,13 @@ module.exports = {
                 loader: [
                     'style-loader',
                     'css-loader',
-                    'less-loader'
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            javascriptEnabled: true,
+                            modifyVars: theme
+                        }
+                    }
                 ]
             }
         ]
